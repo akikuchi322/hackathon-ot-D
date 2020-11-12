@@ -6,6 +6,8 @@ function publish() {
     const userName = $('#userName').val();
     // 入力されたメッセージを取得
     const message = $('#message').val();
+    //テキストを空にする
+    $('#message').val('')
     // 投稿内容を送信
     const data = userName + 'さん：' + message ;
     socket.emit('publishMessage', data);
