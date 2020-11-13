@@ -2,8 +2,8 @@
 
 module.exports = function (socket) {
     // 入室メッセージをクライアントに送信する
-    socket.on('sendUserName', function (data) {
+    socket.on('sendEnterUserName', function (data) {
         console.log(data);
-        socket.broadcast.emit('receiveUserName', data);
+        socket.broadcast.emit('receiveEnterUserName', data);
     });
 };
