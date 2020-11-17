@@ -3,11 +3,19 @@
 let userList = [];
 let wordList = [];
 module.exports = function (socket, io) {
-    // 入室メッセージをクライアントに送信する
+    // 入室処理
     socket.on('sendEnterShiritoriUserName', function (data) {
         console.log(data);
         userList.push(data);
-        socket.broadcast.emit('receiveEnterShiritoriUserName', data);
+        io.sockets.emit('receiveUserList', userList);
+    });
+
+    // 退室処理
+    socket.on('sendExitShiritoriUserName', function (data) {
+        console.log(data);
+        const index = userList.indexOf(data);
+        userList.splice(index,1);
+        console.log(userList);
         io.sockets.emit('receiveUserList', userList);
     });
 
@@ -21,8 +29,14 @@ module.exports = function (socket, io) {
     socket.on('sendWord', function (data) {
         console.log(data);
         io.sockets.emit('receiveWord',data);
+        const word = data.split(":")[1];
+        const user = data.split("さん:")[0];
+        //語尾が「ん」でないかチェック
+        if(word[word.length - 1] === 'ん'){
+            io.sockets.emit('receiveEndFlag',user);
+            return false;
+        }
         //今まで使用された言葉を記録する
-        const word = data.split("：")[1];
         console.log(word);
         wordList.push(word);
         console.log(wordList);

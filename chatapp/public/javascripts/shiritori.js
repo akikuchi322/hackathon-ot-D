@@ -1,7 +1,7 @@
 'use strict';
 
-let userList;
-let wordList;
+let userList = [];
+let wordList = [];
 let userNum;
 let turn = 0;
 let initial = 'り';
@@ -13,6 +13,12 @@ socket.emit('sendEnterShiritoriUserName', userName);
 
 //開始ボタンを押したときの処理
 function shiritoriStart(){
+    //初期化
+    $('#thread').html('');
+    $('#result').html('');
+    wordList = [];
+    turn = 0;
+    initial = 'り';
     //しりとりのテキストエリアなどを非表示から表示状態に変更
     $('#shiritori-contents').css('display', 'block');
     //開始、終了ボタンは非表示状態に変更
@@ -49,12 +55,27 @@ function shiritoriPublish(){
         alert('空欄です');
         return false;
     }
+    //既に使われた言葉でないかチェック
+    if(wordList.includes(word)){
+        alert(`${word}は既に使われています`);
+        return false;
+    }
     //テキストを空にする
     $('#word').val('')
     // 投稿内容を送信
     const data = userName + 'さん:' + word ;
     socket.emit('sendWord', data);
     return false;
+}
+
+// しりとり終了ボタンを押したときの処理
+function shiritoriEnd() {
+    // ユーザ名取得
+    const userName = $('#userName').val();
+    // 参加ユーザのリストから消去
+    socket.emit('sendExitShiritoriUserName', userName);
+    // 退室
+    location.href = '/';
 }
 
 
@@ -65,12 +86,20 @@ socket.on('receiveUserList', function (data) {
     $('#userList').html('<p>' + '参加ユーザ: ' + data + '</p>');
     if(userNum >= 2){
         $('#start-button').css('display', 'block');
-    };
+    }else{
+        $('#start-button').css('display', 'none');
+    }
     console.log(userNum);
 });
 
 // しりとりを開始させる
 socket.on('receiveStartFlag', function () {
+    //初期化
+    $('#thread').html('');
+    $('#result').html('');
+    wordList = [];
+    turn = 0;
+    initial = 'り';
     //しりとりのテキストエリアなどを非表示から表示状態に変更
     $('#shiritori-contents').css('display', 'block');
     //開始、終了ボタンは非表示状態に変更
@@ -80,6 +109,19 @@ socket.on('receiveStartFlag', function () {
     $('#turn').html('<p>' + userList[turn] + 'の順番です ' + '</p>');
     //しりとりの「り」から開始
     $('#initial').html('<p>「' + initial + '」から始まる言葉を入力してください</p>');
+});
+
+// 敗者が決定してしりとり終了
+socket.on('receiveEndFlag', function (data) {
+    //開始、終了ボタンは表示状態に変更
+    $('#start-button').css('display', 'block');
+    $('#end-button').css('display', 'block');
+    //結果を表示
+    $('#result').html(`<p>${data}の負け</p>`);
+    $('#shiritori-contents').css('display', 'none');
+    //initialとturnの表示を消す
+    $('#initial').html('');
+    $('#turn').html('');
 });
 
 // サーバから受信した投稿メッセージを画面上に表示する
@@ -95,4 +137,9 @@ socket.on('receiveWord', function (data) {
     $('#turn').html('<p>' + userList[turn] + 'の順番です ' + '</p>');
     //投稿内容を表示
     $('#thread').prepend('<p>' + data + '</p>');
+});
+
+// サーバからwordListを受信
+socket.on('receiveWordList', function (data) {
+    wordList = data;
 });
