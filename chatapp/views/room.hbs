@@ -2,7 +2,7 @@
     <div class="row">
         <h1>Node Chat チャットルーム</h1>
     </div>
-    <div class="row">
+    <div class="column">
         <form method="post" action="/">
             <div class="room-login_user">
                 ログインユーザ：{{userName}}さん
@@ -15,11 +15,18 @@
                 <input type="button" value="投稿" class="common-button room-publish_button" onclick="publish();">
                 <input type="button" value="メモ" class="common-button room-memo_button" onclick="memo();">
             </div>
+            <div class="room-exit">
+                <input type="button" value="退室する" class="fixed_btn mb-3 rounded-full flex items-center shadow bg-blue-500 px-4 py-2 text-white hover:bg-blue-400" onclick="exit();">
+            </div>
             <div class="room-thread">
+                <div id="memo"></div>
                 <div id="thread"></div>
             </div>
-            <div class="room-exit">
-                <input type="button" value="退室する" class="common-button room-exit_button" onclick="exit();">
+        </form>
+        <form method="post" action="/shiritori">
+            <div class="index-enter">
+                <input name="userName" type="hidden" value="{{userName}}">
+                <input type="submit" value="しりとりモード" class="common-button">
             </div>
         </form>
     </div>

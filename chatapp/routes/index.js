@@ -14,4 +14,10 @@ router.post('/room', function (request, response, next) {
     response.render('room', { userName: request.body.userName });
 });
 
+// しりとり画面の表示
+router.post('/shiritori', function (request, response, next) {
+    console.log('ユーザ名：' + request.body.userName);
+    response.render('shiritori', { userName: request.body.userName });
+});
+
 module.exports = router;

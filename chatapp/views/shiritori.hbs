@@ -1,0 +1,38 @@
+<div class="container">
+    <div class="row">
+        <h1>Node Chat しりとりモード</h1>
+    </div>
+    <div class="column" id="output">
+        <form method="post" action="/">
+            <div class="room-login_user">
+                ログインユーザ：{{userName}}さん
+                <input id="userName" type="hidden" value="{{userName}}">
+            </div>
+            <div id="userList"></div>
+            <br>
+            <div id="result"></div>
+            <div class="start-button" id="start-button" style="display:none">
+                <input type="button" value="開始" class="common-button room-publish_button" onclick="shiritoriStart();">
+            </div>
+            <div id="shiritori-contents" style="display:none">
+                <div id="turn"></div>
+                <div id="initial"></div>
+                <div class="room-message">
+                    <textarea id="word" rows="1" class="room-message_textarea" placeholder="投稿文を入力してください"></textarea>
+                </div>
+                <div class="room-submit">
+                    <input type="button" value="投稿" class="common-button room-publish_button" onclick="shiritoriPublish();">
+                </div>
+            </div>
+            <div class="room-thread">
+                <div id="thread"></div>
+            </div>
+            <div class="room-exit" id="end-button">
+                <input type="button" value="しりとりモードを終了する" class="common-button room-exit_button" onclick="shiritoriEnd();">
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="/javascripts/socket.js"></script>
+<script src="/javascripts/shiritori.js"></script>
