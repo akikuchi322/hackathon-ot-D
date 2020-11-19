@@ -7,9 +7,15 @@ function publish() {
     // 入力されたメッセージを取得
     const message = $('#message').val();
     //テキストを空にする
-    $('#message').val('')
+    $('#message').val('');
+
+    //投稿日時表示
+    var Day = new Date();
+
     // 投稿内容を送信
-    const data = userName + 'さん：' + message ;
+    const data = userName + 'さん：' 
+                　+ '(' + (Day.getMonth()+1) + '/' + Day.getDate() + '&nbsp' +  Day.getHours() + ':' + Day.getMinutes() + ')'
+                  + '&nbsp' + message;
     socket.emit('publishMessage', data);
     return false;
 }
