@@ -9,6 +9,36 @@ function publish() {
     //テキストを空にする
     $('#message').val('');
 
+    //空だけでの送信を認めない
+    if(message == ``){
+        alert(`メッセージが空(から)です。`);
+        return -1;
+    }
+
+    //改行だけでの送信を認めない
+    if(message == `\n`){
+        alert(`メッセージが改行のみです。`);
+        return -1;
+    }
+    if(message == `\r\n`){
+        alert(`メッセージが改行のみです。`);
+        return -1;
+    }
+    if(message == `\r`){
+        alert(`メッセージが改行のみです。`);
+        return -1;
+    }
+
+    //空白だけでの送信を認めない
+    if(message == ` `){
+        alert(`メッセージが半角空白のみです。`);
+        return -1;
+    }
+    if(message == `　`){
+        alert(`メッセージが全角空白のみです。`);
+        return -1;
+    }
+
     //投稿日時表示
     var Day = new Date();
 
