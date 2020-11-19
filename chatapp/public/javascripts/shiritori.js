@@ -45,8 +45,20 @@ function shiritoriPublish(){
     }
     // 入力された言葉を取得
     const word = $('#word').val();
+
     //頭文字が正しいかチェック
-    if(word[0] !== initial){
+    //チェックの前にカタカナはひらがなに変換
+    let charCode = word[0].codePointAt(0);
+    if(12450 <= charCode && charCode <= 12531){
+        charCode -= 96;
+    }else if(12353 > charCode || charCode > 12435){
+        //ひらがなでもなければアラート
+        alert('ひらがなまたはカタカナを入力してください。');
+        return false;
+    }
+    let firstChar = String.fromCodePoint(charCode);
+
+    if(firstChar !== initial){
         alert(`${initial}から始まる言葉を入力してください。`);
         return false;
     }
@@ -76,6 +88,40 @@ function shiritoriEnd() {
     socket.emit('sendExitShiritoriUserName', userName);
     // 退室
     location.href = '/';
+}
+
+//最後の文字が小文字だったときの処理（実装泥沼でごめんなさい）
+function lastCharTranslation(word){
+    let lastChar = word[word.length - 1];
+
+    //カタカナの場合ひらがなに変換
+    let charCode = lastChar.codePointAt(0);
+    if(12450 <= charCode && charCode <= 12531){
+        charCode -= 96;
+    }
+    lastChar = String.fromCodePoint(charCode);
+
+    if(lastChar == 'ぁ'){
+        lastChar = 'あ';
+    }else if(lastChar == 'ぃ'){
+        lastChar = 'い';
+    }else if(lastChar == 'ぅ'){
+        lastChar = 'う';
+    }else if(lastChar == 'ぇ'){
+        lastChar = 'え';
+    }else if(lastChar == 'ぉ'){
+        lastChar = 'お';
+    }else if(lastChar == 'っ'){
+        lastChar = 'つ';
+    }else if(lastChar == 'ゃ'){
+        lastChar = 'や';
+    }else if(lastChar == 'ゅ'){
+        lastChar = 'ゆ';
+    }else if(lastChar == 'ょ'){
+        lastChar = 'よ';
+    }
+
+    return lastChar;
 }
 
 
@@ -127,7 +173,8 @@ socket.on('receiveEndFlag', function (data) {
 // サーバから受信した投稿メッセージを画面上に表示する
 socket.on('receiveWord', function (data) {
     //頭文字を更新
-    initial = data[data.length - 1];
+    lastCharTranslation(data)
+    initial = lastCharTranslation(data);
     $('#initial').html('<p>「' + initial + '」から始まる言葉を入力してください</p>');
     //順番を更新
     turn += 1;
