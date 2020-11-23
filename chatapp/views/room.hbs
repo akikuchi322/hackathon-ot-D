@@ -1,11 +1,8 @@
 <div class="container">
-    <div class="row">
-        <h1>チャットルーム</h1>
-    </div>
     <div class="column">
         <form method="post" action="/">
-            <div class="room-login_user">
-                ログインユーザ：{{userName}}さん
+            <div class="room-login_user text-2xl">
+                こんにちは、{{userName}}さん！
                 <input id="userName" type="hidden" value="{{userName}}">
             </div>
             <div class="room-message">
@@ -15,6 +12,8 @@
             </div>
             <div class="room-submit">
                 <input type="button" value="投稿" class="post-button rounded-full flex items-center shadow bg-blue-500 px-4 py-2 text-white hover:bg-blue-400" onclick="publish();">
+            </div>
+            <div class="room-submit">
                 <input type="button" value="メモ" class="memo-button rounded-full flex items-center shadow bg-blue-500 px-4 py-2 text-white hover:bg-blue-400" onclick="memo();">
             </div>
             <div class="room-exit">
