@@ -50,6 +50,6 @@ function publish() {
 
 // サーバから受信した投稿メッセージを画面上に表示する
 socket.on('receiveMessage', function (data) {
-    $('tbody').prepend('<tr>' + '<th valign="top">' + '<p>' + data["userName"] + '</p>' + '</th>'
+    $('#thread table tbody').prepend('<tr>' + '<th valign="top">' + '<p>' + data["userName"] + '</p>' + '</th>'
         + '<td valign="top">' + '<p>' + data["day"] + '</p>' + '</td>' + '<td>' + '<p>' + data["message"] + '</p>' + '</td>' + '</tr>');
 });
