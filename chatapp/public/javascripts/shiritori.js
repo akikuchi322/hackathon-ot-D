@@ -1,10 +1,15 @@
 'use strict';
 
+const timeLimit = 10;
+
 let userList = [];
 let wordList = [];
 let userNum;
 let turn = 0;
 let initial = 'り';
+let startTime;
+let timerId;
+
 
 // ユーザ名を取得する
 const userName = $('#userName').val();
@@ -30,6 +35,9 @@ function shiritoriStart(){
     $('#turn').html('<p>' + userList[turn] + 'の順番です</p>');
     //しりとりの「り」から開始
     $('#initial').html('<p>「' + initial + '」から始まる言葉を入力してください</p>');
+    //カウントダウン開始
+    startTime = new Date();
+    timerId = setInterval(goTimer,10);
 
     return false;
 }
@@ -45,6 +53,8 @@ function shiritoriPublish(){
     }
     // 入力された言葉を取得
     const word = $('#word').val();
+    //空白を消去
+    word.trim();
 
     //頭文字が正しいかチェック
     //チェックの前にカタカナはひらがなに変換
@@ -77,6 +87,10 @@ function shiritoriPublish(){
     // 投稿内容を送信
     const data = userName + 'さん:' + word ;
     socket.emit('sendWord', data);
+
+    //カウントダウン開始
+    startTime = new Date();
+    timerId = setInterval(goTimer,10);
     return false;
 }
 
@@ -124,6 +138,32 @@ function lastCharTranslation(word){
     return lastChar;
 }
 
+//timerの更新
+function goTimer(){
+    //経過時間を求める
+    let now = new Date();
+    let elapsedTime = now.getTime() - startTime.getTime();
+    //ミリ秒から秒に変換
+    elapsedTime = Math.floor(elapsedTime / 1000);
+    $('#limit').html('<p>残り時間:' + (timeLimit - elapsedTime) + '</p>');
+    if(elapsedTime == timeLimit){
+        console.log('over');
+        clearInterval(timerId);
+        timeOver();
+    }
+}
+
+function timeOver(){
+    //開始、終了ボタンは表示状態に変更
+    $('#start-button').css('display', 'block');
+    $('#end-button').css('display', 'block');
+    //結果を表示
+    $('#result').html(`<p>${userList[turn]}の負け</p>`);
+    $('#shiritori-contents').css('display', 'none');
+    //initialとturnの表示を消す
+    $('#initial').html('');
+    $('#turn').html('');
+}
 
 // サーバから受信したユーザリストを画面上に表示する
 socket.on('receiveUserList', function (data) {
@@ -155,6 +195,10 @@ socket.on('receiveStartFlag', function () {
     $('#turn').html('<p>' + userList[turn] + 'の順番です ' + '</p>');
     //しりとりの「り」から開始
     $('#initial').html('<p>「' + initial + '」から始まる言葉を入力してください</p>');
+
+    //カウントダウン開始
+    startTime = new Date();
+    timerId = setInterval(goTimer,10);
 });
 
 // 敗者が決定してしりとり終了
@@ -184,6 +228,10 @@ socket.on('receiveWord', function (data) {
     $('#turn').html('<p>' + userList[turn] + 'の順番です ' + '</p>');
     //投稿内容を表示
     $('#thread').prepend('<p>' + data + '</p>');
+
+    //カウントダウン開始
+    startTime = new Date();
+    timerId = setInterval(goTimer,10);
 });
 
 // サーバからwordListを受信
