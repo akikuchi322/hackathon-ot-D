@@ -7,7 +7,12 @@ function memo() {
     // 入力されたメッセージを取得
     const message = $('#message').val();
     //テキストを空にする
-    $('#message').val('')
+    $('#message').val('');
+
+    if (message == '') {
+        alert(`メモが空(から)です。`);
+        return -1;
+    }
     // メモの内容を表示
     const data = userName + 'さんのメモ：' + message;
     $('#memo').prepend('<p>' + data + '</p>');
