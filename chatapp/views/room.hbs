@@ -19,8 +19,13 @@
                 <input type="button" value="退室する" class="fixed_btn mb-3 rounded-full flex items-center shadow bg-blue-500 px-4 py-2 text-white hover:bg-blue-400" onclick="exit();">
             </div>
             <div class="room-thread">
-                <div id="memo"></div>
-                <div id="thread"></div>
+              <div id="thread">
+                <table>
+                    <tbody>
+                    </tbody>
+                </table>
+              </div>
+              <div id="memo"></div>
             </div>
         </form>
         <form method="post" action="/shiritori">
