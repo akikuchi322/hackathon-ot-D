@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row">
-        <h1>Node Chat チャットルーム</h1>
+        <h1>チャットルーム</h1>
     </div>
     <div class="column">
         <form method="post" action="/">
@@ -9,7 +9,9 @@
                 <input id="userName" type="hidden" value="{{userName}}">
             </div>
             <div class="room-message">
-                <textarea id="message" rows="4" class="room-message_textarea" placeholder="投稿文を入力してください"></textarea>
+                <label class="block">
+                    <textarea id="message" class="form-textarea mt-1 block w-full" rows="4" placeholder="もじをにゅうりょくしてね！"></textarea>
+                </label>
             </div>
             <div class="room-submit">
                 <input type="button" value="投稿" class="post-button rounded-full flex items-center shadow bg-blue-500 px-4 py-2 text-white hover:bg-blue-400" onclick="publish();">
@@ -19,8 +21,8 @@
                 <input type="button" value="退室する" class="fixed_btn mb-3 rounded-full flex items-center shadow bg-blue-500 px-4 py-2 text-white hover:bg-blue-400" onclick="exit();">
             </div>
             <div class="room-thread">
-                <div id="memo"></div>
-                <div id="thread">
+                <div id="memo" class="text-2xl"></div>
+                <div id="thread" class="text-2xl">
                     <table>
                         <tbody>
                         </tbody>
