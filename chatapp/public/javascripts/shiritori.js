@@ -1,6 +1,6 @@
 'use strict';
 
-const timeLimit = 10;
+const timeLimit = 15;
 
 let userList = [];
 let wordList = [];
@@ -32,7 +32,7 @@ function shiritoriStart(){
     //他のプレイヤーも開始状態にする
     socket.emit('sendStartFlag');
     //誰の順番かを表示させる
-    $('#turn').html('<p>' + userList[turn] + 'の順番です</p>');
+    $('#turn').html('<p>' + userList[turn] + 'さんの順番です</p>');
     //しりとりの「り」から開始
     $('#initial').html('<p>「' + initial + '」から始まる言葉を入力してください</p>');
     //カウントダウン開始
@@ -158,7 +158,7 @@ function timeOver(){
     $('#start-button').css('display', 'block');
     $('#end-button').css('display', 'block');
     //結果を表示
-    $('#result').html(`<p>${userList[turn]}の負け</p>`);
+    $('#result').html(`<p>${userList[turn]}さんの負け</p>`);
     $('#shiritori-contents').css('display', 'none');
     //initialとturnの表示を消す
     $('#initial').html('');
@@ -192,7 +192,7 @@ socket.on('receiveStartFlag', function () {
     $('#start-button').css('display', 'none');
     $('#end-button').css('display', 'none');
     //誰の順番かを表示させる
-    $('#turn').html('<p>' + userList[turn] + 'の順番です ' + '</p>');
+    $('#turn').html('<p>' + userList[turn] + 'さんの順番です ' + '</p>');
     //しりとりの「り」から開始
     $('#initial').html('<p>「' + initial + '」から始まる言葉を入力してください</p>');
 
@@ -207,7 +207,7 @@ socket.on('receiveEndFlag', function (data) {
     $('#start-button').css('display', 'block');
     $('#end-button').css('display', 'block');
     //結果を表示
-    $('#result').html(`<p>${data}の負け</p>`);
+    $('#result').html(`<p>${data}さんの負け</p>`);
     $('#shiritori-contents').css('display', 'none');
     //initialとturnの表示を消す
     $('#initial').html('');
@@ -225,7 +225,7 @@ socket.on('receiveWord', function (data) {
     if(turn >= userNum){
         turn = 0;
     }
-    $('#turn').html('<p>' + userList[turn] + 'の順番です ' + '</p>');
+    $('#turn').html('<p>' + userList[turn] + 'さんの順番です ' + '</p>');
     //投稿内容を表示
     $('#thread').prepend('<p>' + data + '</p>');
 

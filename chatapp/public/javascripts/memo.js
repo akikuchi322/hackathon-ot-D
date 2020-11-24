@@ -12,10 +12,6 @@ function memo() {
     //テキストを空にする
     $('#message').val('');
 
-<<<<<<< HEAD
-    if (message == '') {
-        alert(`メモが空(から)です。`);
-=======
     //空だけでの送信を認めない
     if (message == '') {
         alert(`メッセージが空(から)です。`);
@@ -42,7 +38,6 @@ function memo() {
     }
     if (message == '　') {
         alert(`メッセージが全角空白のみです。`);
->>>>>>> a558c5803bd0fb4db89dbb112e388eb3d27b9a55
         return -1;
     }
     // メモの内容を表示
