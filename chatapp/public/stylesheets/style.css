@@ -12,9 +12,7 @@ a {
     color: #00B7FF;
 }
 
-div {
-    margin: 20px 0px;
-}
+
 .container{
     max-width: 720px;
 }
@@ -75,7 +73,7 @@ div {
 }
 
 .room-submit {
-
+    padding: 6px;
 }
 
 .room-publish_button {
