@@ -1,0 +1,39 @@
+<div class="container">
+    <div class="row">
+        <h1>しりとりモード</h1>
+    </div>
+    <div class="column" id="output">
+        <form method="post" action="/">
+            <div class="room-login_user">
+                ログインユーザ：{{userName}}さん
+                <input id="userName" type="hidden" value="{{userName}}">
+            </div>
+            <div id="userList"></div>
+            <br>
+            <div id="result"></div>
+            <div class="start-button" id="start-button" style="display:none">
+                <input type="button" value="開始" class="post-button rounded-full flex items-center shadow bg-blue-500 px-4 py-2 text-white hover:bg-blue-400" onclick="shiritoriStart();">
+            </div>
+            <div id="shiritori-contents" style="display:none">
+                <div id="turn"></div>
+                <div id="initial"></div>
+                <div id="limit"></div>
+                <div class="room-message">
+                    <input type="text" id="word" class="room-message_textarea" placeholder="投稿文を入力してください"></textarea>
+                </div>
+                <div class="room-submit">
+                    <input type="button" value="投稿" class="post-button rounded-full flex items-center shadow bg-blue-500 px-4 py-2 text-white hover:bg-blue-400" onclick="shiritoriPublish();">
+                </div>
+            </div>
+            <div class="room-thread">
+                <div id="thread"></div>
+            </div>
+            <div class="room-exit" id="end-button">
+                <input type="button" value="しりとりモードを終了する" class="fixed_btn mb-3 rounded-full flex items-center shadow bg-blue-500 px-4 py-2 text-white hover:bg-blue-400" onclick="shiritoriEnd();">
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="/javascripts/socket.js"></script>
+<script src="/javascripts/shiritori.js"></script>
